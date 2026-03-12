@@ -18,15 +18,21 @@ import url from './url.js';
  * @param {Routes} routes 
  */
 const run = (port, hostname, routes) => {
-    const server = http.createServer((req, res) => {
+    const server = http.createServer(async (req, res) => {
         for (const [pattern, handler] of routes) {
-            console.log(req);
+            // console.log(req);
             const match = url.matchUrl(pattern, req.url ?? "/");
     
-            console.log(`match('${pattern}', '${req.url}'): ${match}`)
+            // console.log(`match('${pattern}', '${req.url}'): ${match}`)
     
             if (match !== null) {
-                const ret = handler(match, req);
+                let ret = handler(match, req);
+
+                if (ret instanceof Promise) {
+                    // console.log(ret);
+                    ret = await ret;
+                }
+
                 res.statusCode = ret.code;
                 res.setHeader("Content-Type", ret.type);
                 res.end(ret.content);

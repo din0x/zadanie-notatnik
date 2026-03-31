@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notatnik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="view" id="viewList">
+
+    <header class="topbar">
+        <span class="topbar-brand">
+            Notatnik
+        </span>
+        <div class="topbar-actions">
+            <button class="btn-ghost" id="btnManageCats" title="Zarządzaj kategoriami">
+                Kategorie
+            </button>
+            <button class="btn-primary" id="btnNew">
+                <span>+</span> Nowa notatka
+            </button>
+        </div>
+    </header>
+
+    <div class="list-toolbar">
+        <div class="search-wrap">
+            <svg class="search-ico" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.4"/>
+                <line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Szukaj notatek…" autocomplete="off" />
+        </div>
+
+        <div class="toolbar-selects">
+            <div class="select-wrap" id="catFilterWrap">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M1 3h10M3 6h6M5 9h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                </svg>
+                <select id="catFilterSelect" class="toolbar-select">
+                    <option value="">Wszystkie kategorie</option>
+                    <option value="__none__">Bez kategorii</option>
+                </select>
+            </div>
+
+            <div class="select-wrap">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 2h8M2 6h5M2 10h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                    <path d="M10 7l2 2-2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <select id="sortSelect" class="toolbar-select">
+                    <option value="updatedAt-desc">Ostatnio edytowane</option>
+                    <option value="updatedAt-asc">Najstarsze edytowane</option>
+                    <option value="createdAt-desc">Najnowsze</option>
+                    <option value="createdAt-asc">Najstarsze</option>
+                    <option value="title-asc">Tytuł A–Z</option>
+                    <option value="title-desc">Tytuł Z–A</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="notes-container">
+        <div class="notes-table-head">
+            <span class="col-name">Notatka</span>
+            <span class="col-cats">Kategorie</span>
+            <span class="col-date">Ostatnia edycja</span>
+        </div>
+        <ul class="notes-table" id="notesList"></ul>
+        <div class="notes-empty" id="notesEmpty" style="display:none">
+            <span class="notes-empty-icon">◈</span>
+            <p>Brak notatek</p>
+            <p class="notes-empty-sub">Utwórz pierwszą notatką klikając <strong>+ Nowa notatka</strong></p>
+        </div>
+    </div>
+
+    <footer class="list-footer">
+        <span id="notesCount">—</span>
+    </footer>
+
+</div>
+
+
+<div class="view" id="viewEditor" style="display:none">
+
+    <header class="topbar topbar-editor">
+        <button class="btn-back" id="btnBack">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Wstecz
+        </button>
+
+        <div class="topbar-actions">
+            <button class="btn-ghost btn-delete-note" id="btnDeleteNote" title="Usuń notatkę">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 3.5h10M5 3.5V2.5h4v1M5.5 6v5M8.5 6v5M3 3.5l.7 8h6.6l.7-8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Usuń
+            </button>
+            <button class="btn-primary" id="btnSave">Zapisz</button>
+        </div>
+    </header>
+
+    <div class="editor-body">
+
+        <div class="editor-meta">
+            <input
+                type="text"
+                id="noteTitle"
+                class="note-title-input"
+                placeholder="Tytuł notatki…"
+                maxlength="120"
+            />
+
+            <div class="meta-row">
+                <label class="meta-label">Kategorie</label>
+                <div class="cat-pills-editor" id="catPillsEditor">
+                </div>
+                <button class="btn-add-cat-pill" id="btnAddCatPill">+ Dodaj</button>
+            </div>
+
+            <div class="cat-dropdown" id="catDropdown" style="display:none">
+                <div class="cat-dropdown-inner" id="catDropdownInner">
+                </div>
+            </div>
+
+            <!-- <div class="meta-row meta-row-color">
+                <label class="meta-label">Kolor tła</label>
+                <div class="color-swatches" id="colorSwatches"></div>
+            </div> -->
+        </div>
+
+        <div class="editor-content-wrap">
+            <textarea
+                id="noteContent"
+                class="note-content"
+                placeholder="Zacznij pisać…"
+                spellcheck="true"
+            ></textarea>
+        </div>
+
+    </div>
+
+    <footer class="editor-footer">
+        <span id="noteInfo" class="note-info"></span>
+        <span id="charCount" class="char-count">0 znaków</span>
+    </footer>
+
+</div>
+
+
+<div class="modal-overlay" id="overlayDeleteNote">
+    <div class="modal">
+        <p class="modal-title">Usunąć tę notatkę?</p>
+        <p class="modal-sub">Tej operacji nie można cofnąć.</p>
+        <div class="modal-btns">
+            <button class="btn-ghost" id="btnCancelDeleteNote">Anuluj</button>
+            <button class="btn-danger" id="btnConfirmDeleteNote">Usuń notatkę</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="overlayCatManager">
+    <div class="modal modal-wide">
+        <div class="modal-header">
+            <p class="modal-title">Kategorie</p>
+            <button class="btn-icon modal-close" id="btnCloseCatManager">✕</button>
+        </div>
+
+        <ul class="cat-manager-list" id="catManagerList"></ul>
+
+        <div class="cat-manager-form" id="catManagerForm">
+            <input type="text" id="catFormName" class="cat-form-input" placeholder="Nazwa kategorii…" maxlength="40" />
+            <div class="cat-form-colors" id="catFormColors"></div>
+            <div class="cat-form-actions">
+                <button class="btn-ghost" id="btnCancelCatForm">Anuluj</button>
+                <button class="btn-primary btn-sm" id="btnSaveCatForm">Zapisz</button>
+            </div>
+        </div>
+
+        <button class="btn-add-new-cat" id="btnOpenCatForm">+ Dodaj kategorię</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="overlayDeleteCat">
+    <div class="modal">
+        <p class="modal-title">Usunąć kategorię?</p>
+        <p class="modal-sub">Notatki przypisane do tej kategorii stracą to powiązanie.</p>
+        <div class="modal-btns">
+            <button class="btn-ghost" id="btnCancelDeleteCat">Anuluj</button>
+            <button class="btn-danger" id="btnConfirmDeleteCat">Usuń</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

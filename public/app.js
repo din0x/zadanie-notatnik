@@ -1,35 +1,32 @@
 const API      = '/api/notes';
 const CATS_API = '/api/categories';
 
-/** Palette of colours available for categories. */
 const CAT_COLORS = [
     '#388bfd', '#3fb950', '#f85149', '#e3b341',
     '#a371f7', '#f78166', '#39c5cf', '#db6d28',
     '#58a6ff', '#56d364', '#ffa198', '#ffdf5d',
 ];
 
-/** @type {Array<object>} Lightweight note list items */
+/** @type {Array<object>} */
 let allNotes = [];
 
-/** @type {Array<{id: string, name: string, color: string}>} All categories */
+/** @type {Array<{id: string, name: string, color: string}>} */
 let allCategories = [];
 
-/** @type {string|null} ID of the note currently open in the editor */
+/** @type {string|null} */
 let activeId = null;
 
-/** @type {boolean} Whether the editor has unsaved changes */
 let isDirty = false;
 
-/** @type {ReturnType<typeof setTimeout>|null} Auto-save debounce handle */
+/** @type {ReturnType<typeof setTimeout>|null} */
 let saveTimeout = null;
 
-/** @type {string|null} ID of the category being edited in the manager */
+/** @type {string|null} */
 let editingCatId = null;
 
-/** @type {string|null} ID of the category queued for deletion */
+/** @type {string|null} */
 let deletingCatId = null;
 
-/** @type {boolean} Whether the category dropdown is open in the editor */
 let catDropdownOpen = false;
 
 const viewList        = /** @type {HTMLElement} */ (document.getElementById('viewList'));
@@ -95,9 +92,15 @@ const formatDate = (iso) => {
     const now  = new Date();
     const diff = (now - d) / 1000;
 
-    if (diff < 60)    return 'przed chwilą';
-    if (diff < 3600)  return `${Math.floor(diff / 60)} min temu`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} godz. temu`;
+    if (diff < 60) {
+        return 'przed chwilą';
+    }
+    if (diff < 3600) {
+        return `${Math.floor(diff / 60)} min temu`;
+    }
+    if (diff < 86400) {
+        return `${Math.floor(diff / 3600)} godz. temu`;
+    }
 
     return d.toLocaleDateString('pl-PL', { day: '2-digit', month: 'short', year: 'numeric' });
 };
@@ -477,7 +480,7 @@ const renderCatManagerList = () => {
 };
 
 /**
- * @param {string|null} [catId] - Pass an ID to edit; omit to create.
+ * @param {string|null} catId
  */
 const openCatForm = (catId = null) => {
     editingCatId = catId;
@@ -546,7 +549,7 @@ const doDeleteCategory = async () => {
 };
 
 /**
- * @param {string} id - Note ID.
+ * @param {string} id
  */
 const openNote = async (id) => {
     if (isDirty && activeId) await saveCurrentNote(true);
@@ -589,7 +592,7 @@ const createNewNote = async () => {
 };
 
 /**
- * @param {boolean} [silent=false]
+ * @param {boolean} silent
  */
 const saveCurrentNote = async (silent = false) => {
     if (!activeId) return;

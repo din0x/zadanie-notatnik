@@ -242,29 +242,31 @@ html, body {
     gap: 8px;
 }
 
-.select-wrap {
+select {
     display: flex;
     align-items: center;
     gap: 7px;
     background: var(--bg-surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 0 10px 0 10px;
+    padding: 7px 12px 7px 12px;
     color: var(--text-faint);
-}
-
-.toolbar-select {
     background: transparent;
-    border: none;
     outline: none;
     font-family: var(--font-ui);
     font-size: 12px;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 7px 4px 7px 0;
     appearance: none;
 }
-.toolbar-select option { background: var(--bg-raised); color: var(--text); }
+
+select option { background: var(--bg-surface); color: var(--text-faint); }
+
+select option:hover {
+    cursor: pointer;
+    background: var(--bg-hover) !important;
+    color: var(--text-faint) !important;
+}
 
 .notes-container {
     border: 1px solid var(--border);

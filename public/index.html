@@ -37,30 +37,19 @@
         </div>
 
         <div class="toolbar-selects">
-            <div class="select-wrap" id="catFilterWrap">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M1 3h10M3 6h6M5 9h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                </svg>
-                <select id="catFilterSelect" class="toolbar-select">
-                    <option value="">Wszystkie kategorie</option>
-                    <option value="__none__">Bez kategorii</option>
-                </select>
-            </div>
+            <select id="catFilterSelect">
+                <option value="">Wszystkie kategorie</option>
+                <option value="__none__">Bez kategorii</option>
+            </select>
 
-            <div class="select-wrap">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 2h8M2 6h5M2 10h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                    <path d="M10 7l2 2-2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <select id="sortSelect" class="toolbar-select">
-                    <option value="updatedAt-desc">Ostatnio edytowane</option>
-                    <option value="updatedAt-asc">Najstarsze edytowane</option>
-                    <option value="createdAt-desc">Najnowsze</option>
-                    <option value="createdAt-asc">Najstarsze</option>
-                    <option value="title-asc">Tytuł A–Z</option>
-                    <option value="title-desc">Tytuł Z–A</option>
-                </select>
-            </div>
+            <select id="sortSelect">
+                <option value="updatedAt-desc">Ostatnio edytowane</option>
+                <option value="updatedAt-asc">Najstarsze edytowane</option>
+                <option value="createdAt-desc">Najnowsze</option>
+                <option value="createdAt-asc">Najstarsze</option>
+                <option value="title-asc">Tytuł A–Z</option>
+                <option value="title-desc">Tytuł Z–A</option>
+            </select>
         </div>
     </div>
 
@@ -72,7 +61,9 @@
         </div>
         <ul class="notes-table" id="notesList"></ul>
         <div class="notes-empty" id="notesEmpty" style="display:none">
+            <span class="notes-empty-icon">◈</span>
             <p>Brak notatek</p>
+            <p class="notes-empty-sub">Utwórz pierwszą notatką klikając <strong>+ Nowa notatka</strong></p>
         </div>
     </div>
 
@@ -126,6 +117,11 @@
                 <div class="cat-dropdown-inner" id="catDropdownInner">
                 </div>
             </div>
+
+            <!-- <div class="meta-row meta-row-color">
+                <label class="meta-label">Kolor tła</label>
+                <div class="color-swatches" id="colorSwatches"></div>
+            </div> -->
         </div>
 
         <div class="editor-content-wrap">

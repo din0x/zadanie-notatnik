@@ -367,23 +367,10 @@ select option:hover {
     text-align: center;
 }
 
-.notes-empty-icon {
-    font-size: 36px;
-    color: var(--text-faint);
-    line-height: 1;
-    margin-bottom: 6px;
-}
-
 .notes-empty p {
     font-size: 15px;
     color: var(--text-muted);
     font-weight: 500;
-}
-
-.notes-empty-sub {
-    font-size: 13px !important;
-    color: var(--text-faint) !important;
-    font-weight: 400 !important;
 }
 
 .list-footer {
